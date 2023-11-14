@@ -1,6 +1,7 @@
 package com.example.miepro.service.impl;
 
 import com.example.miepro.service.ImageService;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +25,7 @@ public class ImageServiceImpl implements ImageService {
         try {
             String imageName = generateImageName(imageFile.getOriginalFilename());
             String uploadDirectory = getUploadDirectory();
+
             Path imagePath = Path.of(uploadDirectory, imageName);
 
             Files.copy(imageFile.getInputStream(), imagePath, StandardCopyOption.REPLACE_EXISTING);
@@ -43,14 +45,9 @@ public class ImageServiceImpl implements ImageService {
         return fileNameWithoutExtension + formattedDateTime + fileExtension;
     }
 
-    private String getUploadDirectory() {
-        try {
-            String resourcesPath = resourceLoader.getResource("classpath:/").getURI().getPath();
-            return Path.of(resourcesPath, "static/images/").toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "fallback_directory"; // Fallback directory in case of an exception
-        }
+    private String getUploadDirectory() throws IOException {
+        Resource resource = resourceLoader.getResource("classpath:static/images/");
+        return resource.getFile().getAbsolutePath();
     }
 
 }

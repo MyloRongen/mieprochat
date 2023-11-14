@@ -14,6 +14,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
+    private String imageUrl;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -21,11 +22,20 @@ public class Post {
 
     }
 
-    public Post(Long id, String description, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Post(Long id, String description, String imageUrl ,LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void setId(Long id) {

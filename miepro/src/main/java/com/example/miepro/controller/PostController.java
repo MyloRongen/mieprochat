@@ -1,38 +1,43 @@
 package com.example.miepro.controller;
 
 import com.example.miepro.model.Post;
-import com.example.miepro.repository.PostRepository;
+import com.example.miepro.service.ImageService;
 import com.example.miepro.service.PostService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.HttpStatus;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
-/*@CrossOrigin*/
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class PostController {
     private final PostService postService;
+    private final ImageService imageService;
 
-    public PostController(PostService postService) {
+    public PostController(PostService postService, ImageService imageService) {
         this.postService = postService;
+        this.imageService = imageService;
     }
 
-    @PostMapping("/create/post")
-/*    @CrossOrigin*/
-    public String createPost(@RequestBody final Post post){
+    @PostMapping(value = "/create/post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String createPost(@RequestParam("description") String description,
+                             @RequestParam("image") MultipartFile image) {
+
+        String imageUrl = imageService.saveImage(image);
+
+        Post post = new Post();
+        post.setDescription(description);
+        post.setImageUrl(imageUrl);
+
         return postService.createPost(post);
     }
 
     @GetMapping("/posts")
+    @RolesAllowed({"ADMIN"})
     public List<Post> GetAllPosts(){
         return postService.getAllPosts();
     }
