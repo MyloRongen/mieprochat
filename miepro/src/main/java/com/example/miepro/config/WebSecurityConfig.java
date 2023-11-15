@@ -32,6 +32,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(registry ->
                         registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/posts", "/tokens", "/tokens/refreshToken").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/images/all", "/api/images/{imageName}").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(configure -> configure.authenticationEntryPoint(authenticationEntryPoint))

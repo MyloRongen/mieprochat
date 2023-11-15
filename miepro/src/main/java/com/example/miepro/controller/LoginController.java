@@ -29,7 +29,7 @@ public class LoginController {
         LoginResponse loginResponse = loginUseCase.login(loginRequest);
 
         if (loginResponse == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(loginRequest.getUsername());
