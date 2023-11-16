@@ -3,7 +3,6 @@ package com.example.miepro.config.security.token.impl;
 import com.example.miepro.config.security.token.AccessToken;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;

@@ -2,9 +2,7 @@ package com.example.miepro.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Entity
@@ -19,7 +17,8 @@ public class Post {
     private LocalDateTime updatedAt;
 
     public Post(){
-
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public Post(Long id, String description, String imageUrl ,LocalDateTime createdAt, LocalDateTime updatedAt) {

@@ -11,9 +11,8 @@ import com.example.miepro.service.LoginUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -44,7 +43,7 @@ public class LoginUseCaseImpl implements LoginUseCase {
     }
 
     public String generateAccessToken(User user) {
-        Set<String> hardcodedRoles = new HashSet<>(Arrays.asList("ADMIN"));
+        Set<String> hardcodedRoles = new HashSet<>(List.of("ADMIN"));
 
         return accessTokenEncoder.encode(
                 new AccessTokenImpl(user.getUsername(), hardcodedRoles));

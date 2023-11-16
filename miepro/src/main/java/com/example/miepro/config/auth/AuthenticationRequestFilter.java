@@ -7,7 +7,6 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,9 +21,11 @@ import java.io.IOException;
 public class AuthenticationRequestFilter extends OncePerRequestFilter {
 
     private static final String SPRING_SECURITY_ROLE_PREFIX = "ROLE_";
+    private final AccessTokenDecoder accessTokenDecoder;
 
-    @Autowired
-    private AccessTokenDecoder accessTokenDecoder;
+    public AuthenticationRequestFilter(AccessTokenDecoder accessTokenDecoder) {
+        this.accessTokenDecoder = accessTokenDecoder;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -65,5 +66,4 @@ public class AuthenticationRequestFilter extends OncePerRequestFilter {
         usernamePasswordAuthenticationToken.setDetails(accessToken);
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
     }
-
 }

@@ -1,14 +1,14 @@
 package com.example.miepro.controller;
 
+import com.example.miepro.exception.InvalidPostException;
 import com.example.miepro.model.Post;
 import com.example.miepro.service.ImageService;
 import com.example.miepro.service.PostService;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
 
 @RestController
@@ -24,16 +24,19 @@ public class PostController {
     }
 
     @PostMapping(value = "/create/post", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String createPost(@RequestParam("description") String description,
-                             @RequestParam("image") MultipartFile image) {
+    public String createPost(@RequestParam("description") @Valid String description,
+                             @RequestParam("image") @Valid MultipartFile image) {
+        try {
+            String imageUrl = imageService.saveImage(image);
 
-        String imageUrl = imageService.saveImage(image);
+            Post post = new Post();
+            post.setDescription(description);
+            post.setImageUrl(imageUrl);
 
-        Post post = new Post();
-        post.setDescription(description);
-        post.setImageUrl(imageUrl);
-
-        return postService.createPost(post);
+            return postService.createPost(post);
+        } catch (InvalidPostException e) {
+            return e.getMessage();
+        }
     }
 
     @GetMapping("/posts")
@@ -43,17 +46,29 @@ public class PostController {
     }
 
     @GetMapping("/post/{postId}")
-    public Post getPostById(@PathVariable final String postId){
+    @RolesAllowed({"ADMIN"})
+    public Post getPostById(@PathVariable @Valid final String postId){
         return postService.getPost(postId);
     }
 
     @PutMapping("/post")
-    public String patchPost(@RequestBody Post post){
-        return postService.updatePost(post);
+    @RolesAllowed({"ADMIN"})
+    public String patchPost(@RequestBody @Valid Post post){
+        try {
+            return postService.updatePost(post);
+        } catch (InvalidPostException e) {
+            return e.getMessage();
+        }
     }
 
     @DeleteMapping("/post/{postId}")
-    public String deletePost(@PathVariable final String postId){
-        return postService.deletePost(postId);
+    @RolesAllowed({"ADMIN"})
+    public String deletePost(@PathVariable @Valid final String postId){
+        try {
+            Post post = postService.getPost(postId);
+            return postService.deletePost(post.getId().toString());
+        } catch (InvalidPostException e) {
+            return e.getMessage();
+        }
     }
 }

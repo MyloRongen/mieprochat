@@ -13,7 +13,6 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-
 import java.security.Key;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -53,7 +52,7 @@ public class AccessTokenEncoderDecoderImpl implements AccessTokenEncoder, Access
                     .parseClaimsJws(accessTokenEncoded);
             Claims claims = jwt.getBody();
 
-            Set<String> hardcodedRoles = new HashSet<>(Arrays.asList("ADMIN"));
+            Set<String> hardcodedRoles = new HashSet<>(List.of("ADMIN"));
             return new AccessTokenImpl(claims.getSubject(), hardcodedRoles);
         } catch (JwtException e) {
             throw new InvalidAccessTokenException(e.getMessage());
