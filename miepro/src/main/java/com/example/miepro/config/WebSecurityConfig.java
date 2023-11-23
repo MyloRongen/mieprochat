@@ -3,6 +3,7 @@ package com.example.miepro.config;
 import com.example.miepro.config.auth.AuthenticationRequestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.cassandra.repository.config.EnableCassandraRepositories;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,7 +32,7 @@ public class WebSecurityConfig {
                         configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(registry ->
                         registry.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/posts", "/tokens", "/tokens/refreshToken").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/posts", "/api/tests", "/tokens", "/tokens/refreshToken").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/images/all", "/api/images/{imageName}").permitAll()
                                 .anyRequest().authenticated()
                 )

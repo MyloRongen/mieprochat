@@ -23,7 +23,7 @@ public class ImageImpl implements ImageService {
         this.resourceLoader = resourceLoader;
     }
 
-    public String saveImage(MultipartFile imageFile) {
+    public String saveImageAndReturnUrl(MultipartFile imageFile) {
         try {
             String imageName = generateImageName(Objects.requireNonNull(imageFile.getOriginalFilename()));
             String uploadDirectory = getUploadDirectory();

@@ -1,19 +1,32 @@
 package com.example.miepro.model;
 
-import jakarta.persistence.*;
 import lombok.Getter;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
+
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
-@Entity
-@Table(name = "posts")
+@Table("posts")
 public class Post {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @PrimaryKey
+    private UUID id;
+
+    @Column("user_id")
+    private Long userId;
+
+    @Column("description")
     private String description;
+
+    @Column("image_url")
     private String imageUrl;
+
+    @Column("created_at")
     private LocalDateTime createdAt;
+
+    @Column("updated_at")
     private LocalDateTime updatedAt;
 
     public Post(){
@@ -21,12 +34,36 @@ public class Post {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Post(Long id, String description, String imageUrl ,LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Post(UUID id, String description, String imageUrl ,LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.description = description;
         this.imageUrl = imageUrl;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public static void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getImageUrl() {
@@ -37,16 +74,16 @@ public class Post {
         this.imageUrl = imageUrl;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
