@@ -1,5 +1,6 @@
 package com.example.miepro.service.impl;
 
+import com.example.miepro.model.Post;
 import com.example.miepro.model.TestPost;
 import com.example.miepro.model.TestPostWithUsername;
 import com.example.miepro.model.User;
@@ -25,7 +26,7 @@ public class TestImpl implements TestService {
 
     @Override
     public List<TestPostWithUsername> getAllTestPosts() {
-        List<TestPost> posts = cassandraTestRepository.findAll();
+        List<Post> posts = cassandraTestRepository.findAll();
 
         return posts.stream()
                 .map(post -> {

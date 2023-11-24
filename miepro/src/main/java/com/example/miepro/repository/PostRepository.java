@@ -1,8 +1,8 @@
 package com.example.miepro.repository;
 
 import com.example.miepro.model.Post;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.cassandra.repository.CassandraRepository;
 
-public interface PostRepository extends JpaRepository<Post, String> {
+public interface PostRepository extends CassandraRepository<Post, String> {
 }
 

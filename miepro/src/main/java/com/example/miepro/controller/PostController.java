@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -50,32 +49,11 @@ public class PostController {
         }
     }
 
-    /*@GetMapping("/posts")
+    @GetMapping("/posts")
     @RolesAllowed({"ADMIN"})
-    public List<PostResponse> GetAllPosts(){
-        List<Post> posts = postService.getAllPosts();
-        List<PostResponse> postResponses = new ArrayList<>();
-
-        for (Post post : posts) {
-            PostResponse postResponse = new PostResponse();
-            postResponse.setId(post.getId());
-            postResponse.setCreatedAt(post.getCreatedAt());
-            postResponse.setDescription(post.getDescription());
-            postResponse.setImageUrl(post.getImageUrl());
-            postResponse.setUpdatedAt(post.getUpdatedAt());
-
-            User user = new User();
-            user.setId(post.getUser.id().getId());
-            user.setEmail(post.getUser().getEmail());
-            user.setUsername(post.getUser().getUsername());
-
-            postResponse.setUser(user);
-
-            postResponses.add(postResponse);
-        }
-
-        return postResponses;
-    }*/
+    public List<TestPostWithUsername> GetAllPosts(){
+        return testService.getAllTestPosts();
+    }
 
     @GetMapping("/post/{postId}")
     @RolesAllowed({"ADMIN"})
@@ -111,9 +89,9 @@ public class PostController {
 
     private Post createPostModel(String description, String imageUrl, User user) {
         Post post = new Post();
-        Post.setDescription(description);
-        Post.setImageUrl(imageUrl);
-        Post.setUserId(user);
+        post.setDescription(description);
+        post.setImageUrl(imageUrl);
+        post.setUserId(user.getId());
         return post;
     }
 }

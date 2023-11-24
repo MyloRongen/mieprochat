@@ -1,19 +1,19 @@
 package com.example.miepro.model;
 
 public class TestPostWithUsername {
-    private TestPost testPost;
+    private Post testPost;
     private String username;
 
-    public TestPostWithUsername(TestPost testPost, String username) {
+    public TestPostWithUsername(Post testPost, String username) {
         this.testPost = testPost;
         this.username = username;
     }
 
-    public TestPost getTestPost() {
+    public Post getTestPost() {
         return testPost;
     }
 
-    public void setTestPost(TestPost testPost) {
+    public void setTestPost(Post testPost) {
         this.testPost = testPost;
     }
 

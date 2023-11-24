@@ -17,10 +17,7 @@ public class Post {
     @Column("user_id")
     private Long userId;
 
-    @Column("description")
     private String description;
-
-    @Column("image_url")
     private String imageUrl;
 
     @Column("created_at")
@@ -32,14 +29,6 @@ public class Post {
     public Post(){
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
-    }
-
-    public Post(UUID id, String description, String imageUrl ,LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public UUID getId() {
@@ -54,7 +43,7 @@ public class Post {
         return userId;
     }
 
-    public static void setUserId(Long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

@@ -71,7 +71,7 @@ public class PostImpl implements PostService {
             throw new InvalidPostException("Post imageUrl cannot be null or empty");
         }
 
-        if (post.getUser() == null){
+        if (post.getUserId() == null){
             throw new InvalidPostException("No user given to the post");
         }
     }
